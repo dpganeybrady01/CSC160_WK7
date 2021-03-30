@@ -15,7 +15,22 @@ using std::stringstream;
            vector where the values are averaged with the two neighboring values
            This is known as a smoothing function
 */
+vector double> windowSmooth(vector<double> unsmoothed) {
+  vector<double> smoothed;
+  for (int i = 0; i < unsmoothed.size(); i++) {
+    double avg;
+    if (i == 0) {
+      avg = (unsmoothed[i] + unsmoothed[i+1]) / 2.0;
+    } else if (i == unsmoothed.size() - 1) {
+      avg = (unsmoothed[i] + unsmoothed [i-1]) / 2.0;
+    } else {
+      avg = (unsmoothed[i-1] + unsmoothed[i] + unsmoothed[i+1]) / 3.0;
+    }
+    smoothed.push_back(avg);
 
+  }
+  return smoothed;
+}
 
 /*
   STUDENT:  Write a function that will take a vector of WeatherReport and
@@ -25,6 +40,7 @@ using std::stringstream;
             organize the reports by day.  Then find the max of each day's
             values.
 */
+// vector<WeatherReport> getDailyMax(vector)
 
 vector<double> getTemperatureValues(vector<WeatherReport> reports) {
   vector<double> data;
@@ -127,6 +143,7 @@ int main() {
       vector<double> locationTemperatures = getTemperatureValues(reports); //get the temperature values for this location, this is what will be plotted
 
       //STUDENT: Add smoothing transform here
+      locationTemperatures = WindowSmooth(locationTemperatures);
 
       plot_data.push_back(locationTemperatures); //add this location's data to the plot data
       rnames.push_back(location); //alos add this location to the list of titles
